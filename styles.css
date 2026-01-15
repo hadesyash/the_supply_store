@@ -76,11 +76,11 @@ h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 0;
+    padding: 1.2rem 0;
 }
 
 .logo img {
-    height: 60px;
+    height: 90px;
     transition: transform 0.3s ease;
 }
 
@@ -496,6 +496,80 @@ h3 {
     resize: vertical;
 }
 
+/* Downloads Section */
+.downloads-section {
+    padding: 5rem 0;
+    background: var(--light-grey);
+}
+
+.downloads-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.download-card {
+    background: var(--white);
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(11, 44, 77, 0.08);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.download-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(11, 44, 77, 0.15);
+}
+
+.download-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--business-gold), #d4b05e);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.download-icon svg {
+    width: 40px;
+    height: 40px;
+}
+
+.download-card h3 {
+    color: var(--navy-blue);
+    margin-bottom: 1rem;
+}
+
+.download-card p {
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+}
+
+.download-card .btn {
+    margin-top: 1rem;
+}
+
+/* Partner Section Updates */
+.partner-subtitle {
+    color: var(--business-gold);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem !important;
+}
+
+.partner-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
 /* Map Section */
 .map-section {
     padding: 5rem 0;
@@ -557,6 +631,12 @@ h3 {
 
 .catalogue-content h2 {
     margin-bottom: 0.5rem;
+}
+
+.catalogue-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .catalogue-content .btn svg {
@@ -1103,7 +1183,7 @@ h3 {
 }
 
 .footer-logo {
-    height: 50px;
+    height: 70px;
     margin-bottom: 1rem;
 }
 
@@ -1155,6 +1235,10 @@ h3 {
     
     .mobile-menu-btn {
         display: flex;
+    }
+    
+    .logo img {
+        height: 70px;
     }
     
     h1 {
