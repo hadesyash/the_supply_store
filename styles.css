@@ -76,11 +76,11 @@ h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.2rem 0;
+    padding: 1.5rem 0;
 }
 
 .logo img {
-    height: 90px;
+    height: 120px;
     transition: transform 0.3s ease;
 }
 
@@ -515,6 +515,9 @@ h3 {
     box-shadow: 0 4px 20px rgba(11, 44, 77, 0.08);
     text-align: center;
     transition: all 0.3s ease;
+    overflow: hidden;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 .download-card:hover {
@@ -532,11 +535,16 @@ h3 {
     align-items: center;
     justify-content: center;
     margin: 0 auto 1.5rem;
+    flex-shrink: 0;
 }
 
 .download-icon svg {
     width: 40px;
     height: 40px;
+    flex-shrink: 0;
+    stroke: currentColor;
+    max-width: 40px;
+    max-height: 40px;
 }
 
 .download-card h3 {
@@ -1238,7 +1246,7 @@ h3 {
     }
     
     .logo img {
-        height: 70px;
+        height: 80px;
     }
     
     h1 {
