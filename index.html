@@ -277,24 +277,32 @@
 
 
 <script>
-// Get the form - adjust the selector if your form has a different ID
-const form = document.querySelector('form');
+// Target the form by ID
+const form = document.getElementById('contactForm');
 if (form) {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const formData = new FormData(e.target);
+        
+        // Build data object
         const data = {
-            name: formData.get('name'),
-            email: formData.get('email'),
-            phone: formData.get('phone'),
+            name: formData.get('name') || '',
+            email: formData.get('email') || '',
+            phone: formData.get('phone') || '',
             company: formData.get('company') || '',
             interest: formData.get('interest') || '',
             message: formData.get('message') || ''
         };
         
         console.log('Sending data:', data);
-
+        
+        // Check if required fields are filled
+        if (!data.name || !data.email || !data.phone) {
+            alert('❌ Please fill in all required fields (Name, Email, Phone)');
+            return;
+        }
+        
         try {
             const submitBtn = e.target.querySelector('button[type="submit"]');
             const originalText = submitBtn.textContent;
@@ -321,11 +329,14 @@ if (form) {
         } catch (error) {
             console.error('Error:', error);
             alert('❌ There was an error. Please try again.');
+            
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.textContent = 'Send Enquiry';
+            submitBtn.disabled = false;
         }
     });
 }
 </script>
-
 
 
 
