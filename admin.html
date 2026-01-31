@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Supply Store - Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #F8F9FA;
+            color: #212529;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+        }
+        
+        .subtitle {
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 4px solid #0066cc;
+        }
+        
+        .stat-card:nth-child(2) {
+            border-left-color: #28a745;
+        }
+        
+        .stat-card:nth-child(3) {
+            border-left-color: #ffc107;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        .tab {
+            padding: 0.875rem 1.75rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #6c757d;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.3s ease;
+        }
+        
+        .tab:hover {
+            color: #1a1a1a;
+        }
+        
+        .tab.active {
+            color: #0066cc;
+            border-bottom-color: #0066cc;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        thead {
+            background: #f8f9fa;
+        }
+        
+        th {
+            text-align: left;
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6c757d;
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            background: #e3f2fd;
+            color: #0066cc;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .badge.paints { background: #e8f5e9; color: #2e7d32; }
+        .badge.chemicals { background: #fff3e0; color: #e65100; }
+        .badge.bulk { background: #f3e5f5; color: #7b1fa2; }
+        .badge.dealership { background: #e0f2f1; color: #00695c; }
+        
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #adb5bd;
+        }
+        
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #6c757d;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #0066cc;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn:hover {
+            background: #0052a3;
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #0066cc;
+            border: 2px solid #0066cc;
+        }
+        
+        .btn-secondary:hover {
+            background: #f8f9fa;
+        }
+        
+        .timestamp {
+            font-size: 0.85rem;
+            color: #adb5bd;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .message-preview {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .table-container {
+                overflow-x: auto;
+            }
+            
+            table {
+                font-size: 0.85rem;
+            }
+            
+            th, td {
+                padding: 0.75rem 0.5rem;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎨 The Supply Store Admin</h1>
+            <p class="subtitle">View and manage all enquiries and dealership applications</p>
+        </header>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="total-enquiries">-</div>
+                <div class="stat-label">Total Enquiries</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="total-dealerships">-</div>
+                <div class="stat-label">Dealership Applications</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="total-submissions">-</div>
+                <div class="stat-label">Total Submissions</div>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <button class="btn" onclick="refreshData()">🔄 Refresh Data</button>
+            <button class="btn btn-secondary" onclick="exportToCSV('enquiries')">📥 Export Enquiries CSV</button>
+            <button class="btn btn-secondary" onclick="exportToCSV('dealerships')">📥 Export Dealerships CSV</button>
+        </div>
+        
+        <div id="error-message"></div>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('enquiries')">Customer Enquiries</button>
+            <button class="tab" onclick="switchTab('dealerships')">Dealership Applications</button>
+        </div>
+        
+        <div id="enquiries" class="section active">
+            <div class="table-container">
+                <div class="loading" id="enquiries-loading">
+                    <div class="spinner"></div>
+                    <p>Loading enquiries...</p>
+                </div>
+                <div id="enquiries-content" style="display: none;"></div>
+            </div>
+        </div>
+        
+        <div id="dealerships" class="section">
+            <div class="table-container">
+                <div class="loading" id="dealerships-loading">
+                    <div class="spinner"></div>
+                    <p>Loading dealership applications...</p>
+                </div>
+                <div id="dealerships-content" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // UPDATE THIS URL TO YOUR RENDER BACKEND URL
+        const API_BASE = 'https://your-render-url.onrender.com/api';
+        
+        let enquiriesData = [];
+        let dealershipsData = [];
+        
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleString('en-IN', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+        
+        // Get badge class for interest type
+        function getBadgeClass(interest) {
+            const interestLower = (interest || '').toLowerCase();
+            if (interestLower.includes('paint')) return 'paints';
+            if (interestLower.includes('chemical')) return 'chemicals';
+            if (interestLower.includes('bulk')) return 'bulk';
+            if (interestLower.includes('dealership')) return 'dealership';
+            return '';
+        }
+        
+        // Switch tabs
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+        }
+        
+        // Show error
+        function showError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.innerHTML = `<div class="error">❌ ${message}</div>`;
+            setTimeout(() => {
+                errorDiv.innerHTML = '';
+            }, 5000);
+        }
+        
+        // Load enquiries
+        async function loadEnquiries() {
+            try {
+                const response = await fetch(`${API_BASE}/enquiries`);
+                if (!response.ok) throw new Error('Failed to load enquiries');
+                
+                enquiriesData = await response.json();
+                
+                document.getElementById('enquiries-loading').style.display = 'none';
+                const content = document.getElementById('enquiries-content');
+                content.style.display = 'block';
+                
+                if (enquiriesData.length === 0) {
+                    content.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📭</div>
+                            <h3>No enquiries yet</h3>
+                            <p>Customer enquiries will appear here</p>
+                        </div>
+                    `;
+                } else {
+                    content.innerHTML = `
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Company</th>
+                                    <th>Interest</th>
+                                    <th>Message</th>
+                                    <th>Submitted</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${enquiriesData.map(enquiry => `
+                                    <tr>
+                                        <td><strong>${enquiry.name || 'N/A'}</strong></td>
+                                        <td>${enquiry.email || 'N/A'}</td>
+                                        <td>${enquiry.phone || 'N/A'}</td>
+                                        <td>${enquiry.company || '-'}</td>
+                                        <td><span class="badge ${getBadgeClass(enquiry.interest)}">${enquiry.interest || 'N/A'}</span></td>
+                                        <td><div class="message-preview" title="${enquiry.message || ''}">${enquiry.message || '-'}</div></td>
+                                        <td class="timestamp">${formatDate(enquiry.submittedAt || enquiry.timestamp)}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                }
+                
+                document.getElementById('total-enquiries').textContent = enquiriesData.length;
+            } catch (error) {
+                console.error('Error loading enquiries:', error);
+                document.getElementById('enquiries-loading').style.display = 'none';
+                document.getElementById('enquiries-content').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⚠️</div>
+                        <h3>Error loading enquiries</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+                showError('Failed to load enquiries');
+            }
+        }
+        
+        // Load dealerships
+        async function loadDealerships() {
+            try {
+                const response = await fetch(`${API_BASE}/dealerships`);
+                if (!response.ok) throw new Error('Failed to load dealerships');
+                
+                dealershipsData = await response.json();
+                
+                document.getElementById('dealerships-loading').style.display = 'none';
+                const content = document.getElementById('dealerships-content');
+                content.style.display = 'block';
+                
+                if (dealershipsData.length === 0) {
+                    content.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📭</div>
+                            <h3>No applications yet</h3>
+                            <p>Dealership applications will appear here</p>
+                        </div>
+                    `;
+                } else {
+                    content.innerHTML = `
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Location</th>
+                                    <th>Experience</th>
+                                    <th>Message</th>
+                                    <th>Submitted</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${dealershipsData.map(app => `
+                                    <tr>
+                                        <td><strong>${app.name || 'N/A'}</strong></td>
+                                        <td>${app.email || 'N/A'}</td>
+                                        <td>${app.phone || 'N/A'}</td>
+                                        <td>${app.location || '-'}</td>
+                                        <td>${app.experience || '-'}</td>
+                                        <td><div class="message-preview" title="${app.message || ''}">${app.message || '-'}</div></td>
+                                        <td class="timestamp">${formatDate(app.submittedAt || app.timestamp)}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                }
+                
+                document.getElementById('total-dealerships').textContent = dealershipsData.length;
+            } catch (error) {
+                console.error('Error loading dealerships:', error);
+                document.getElementById('dealerships-loading').style.display = 'none';
+                document.getElementById('dealerships-content').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⚠️</div>
+                        <h3>Error loading dealerships</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+                showError('Failed to load dealership applications');
+            }
+        }
+        
+        // Update total stats
+        function updateStats() {
+            const total = enquiriesData.length + dealershipsData.length;
+            document.getElementById('total-submissions').textContent = total;
+        }
+        
+        // Refresh all data
+        async function refreshData() {
+            document.getElementById('enquiries-loading').style.display = 'block';
+            document.getElementById('enquiries-content').style.display = 'none';
+            document.getElementById('dealerships-loading').style.display = 'block';
+            document.getElementById('dealerships-content').style.display = 'none';
+            
+            await Promise.all([loadEnquiries(), loadDealerships()]);
+            updateStats();
+        }
+        
+        // Export to CSV
+        function exportToCSV(type) {
+            const data = type === 'enquiries' ? enquiriesData : dealershipsData;
+            
+            if (data.length === 0) {
+                alert(`No ${type} to export`);
+                return;
+            }
+            
+            const keys = [...new Set(data.flatMap(Object.keys))];
+            
+            const csvContent = [
+                keys.join(','),
+                ...data.map(item => 
+                    keys.map(key => {
+                        const value = item[key] || '';
+                        return `"${String(value).replace(/"/g, '""')}"`;
+                    }).join(',')
+                )
+            ].join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `supply-store-${type}-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+        
+        // Load data on page load
+        window.addEventListener('DOMContentLoaded', async () => {
+            await refreshData();
+        });
+    </script>
+</body>
+</html>
