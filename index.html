@@ -284,8 +284,7 @@
 
 
 
-    <script>
-// Wait for DOM to be fully loaded
+ <script>
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('contactForm');
     
@@ -297,7 +296,6 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Get values directly from the input fields
         const data = {
             name: document.getElementById('name').value.trim(),
             email: document.getElementById('email').value.trim(),
@@ -309,9 +307,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         console.log('Sending data:', data);
         
-        // Validate required fields
-        if (!data.name || !data.email || !data.phone || !data.interest || !data.message) {
-            alert('❌ Please fill in all required fields (Name, Email, Phone, Interest, Message)');
+        // Only validate the truly required fields
+        if (!data.name || !data.email || !data.phone) {
+            alert('❌ Please fill in Name, Email, and Phone');
             return;
         }
         
