@@ -96,6 +96,34 @@
         </div>
     </section>
 
+    <!-- Store Gallery Slideshow -->
+    <section class="store-gallery">
+        <div class="container">
+            <h2 class="section-title">Our Store</h2>
+            <div class="gallery-divider"></div>
+            <div class="gallery-slideshow">
+                <div class="gallery-track">
+                    <div class="gallery-slide active">
+                        <img src="TSS_pic1.jpeg" alt="The Supply Store - Store View 1">
+                    </div>
+                    <div class="gallery-slide">
+                        <img src="TSS_pic2.jpeg" alt="The Supply Store - Store View 2">
+                    </div>
+                </div>
+                <button class="gallery-btn gallery-prev" aria-label="Previous slide">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="gallery-btn gallery-next" aria-label="Next slide">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <div class="gallery-dots">
+                    <span class="gallery-dot active" data-index="0"></span>
+                    <span class="gallery-dot" data-index="1"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Enquiry Section -->
     <section class="enquiry-section" id="enquiry">
         <div class="container">
@@ -196,7 +224,7 @@
                     </div>
                     <h3>Authorization Letter</h3>
                     <p>Official authorization certificate from Addisons Paints & Chemicals confirming our distributorship</p>
-                    <a href="authorization-letter.pdf" download class="btn btn-secondary">Download PDF</a>
+                    <a href="Supply Store Authorization Letter.pdf" download class="btn btn-secondary">Download PDF</a>
                 </div>
 
                 <div class="download-card">
@@ -211,7 +239,7 @@
                     </div>
                     <h3>Company Profile</h3>
                     <p>Complete company profile of Addisons Paints & Chemicals with product details and capabilities</p>
-                    <a href="addisons-company-profile.pdf" download class="btn btn-secondary">Download PDF</a>
+                    <a href="Company profile TSS.pdf" download class="btn btn-secondary">Download PDF</a>
                 </div>
             </div>
         </div>
@@ -366,6 +394,40 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     console.log('Form handler attached successfully');
+
+    // Store Gallery Slideshow
+    const slides = document.querySelectorAll('.gallery-slide');
+    const dots = document.querySelectorAll('.gallery-dot');
+    const prevBtn = document.querySelector('.gallery-prev');
+    const nextBtn = document.querySelector('.gallery-next');
+    let currentSlide = 0;
+    let autoSlide;
+
+    function goToSlide(index) {
+        slides[currentSlide].classList.remove('active');
+        dots[currentSlide].classList.remove('active');
+        currentSlide = (index + slides.length) % slides.length;
+        slides[currentSlide].classList.add('active');
+        dots[currentSlide].classList.add('active');
+    }
+
+    function startAutoSlide() {
+        autoSlide = setInterval(function() { goToSlide(currentSlide + 1); }, 5000);
+    }
+
+    function resetAutoSlide() {
+        clearInterval(autoSlide);
+        startAutoSlide();
+    }
+
+    if (prevBtn && nextBtn) {
+        prevBtn.addEventListener('click', function() { goToSlide(currentSlide - 1); resetAutoSlide(); });
+        nextBtn.addEventListener('click', function() { goToSlide(currentSlide + 1); resetAutoSlide(); });
+        dots.forEach(function(dot) {
+            dot.addEventListener('click', function() { goToSlide(parseInt(this.dataset.index)); resetAutoSlide(); });
+        });
+        startAutoSlide();
+    }
 });
 </script>
 
