@@ -80,7 +80,7 @@ h3 {
 }
 
 .logo img {
-    height: 120px;
+    height: 180px;
     transition: transform 0.3s ease;
 }
 
@@ -560,6 +560,15 @@ h3 {
 
 .download-card .btn {
     margin-top: 1rem;
+    background: var(--navy-blue);
+    color: var(--white);
+    border: 2px solid var(--navy-blue);
+}
+
+.download-card .btn:hover {
+    background: var(--business-gold);
+    border-color: var(--business-gold);
+    color: var(--white);
 }
 
 /* Partner Section Updates */
@@ -1303,7 +1312,7 @@ h3 {
     }
     
     .logo img {
-        height: 80px;
+        height: 120px;
     }
     
     h1 {
