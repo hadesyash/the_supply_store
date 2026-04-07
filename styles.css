@@ -1692,6 +1692,20 @@ h3 {
     opacity: 0.7;
 }
 
+.company-card-featured {
+    grid-column: span 2;
+    border: 2px solid var(--business-gold);
+}
+
+.company-card-actions-vertical {
+    flex-direction: column;
+}
+
+.company-card-actions-vertical .btn-catalogue {
+    width: 100%;
+    justify-content: center;
+}
+
 .btn-catalogue-outline {
     padding: 0.6rem 1.2rem;
     border-radius: 6px;
@@ -1830,6 +1844,10 @@ h3 {
 
     .company-cards-grid {
         grid-template-columns: 1fr;
+    }
+
+    .company-card-featured {
+        grid-column: span 1;
     }
 
     .brands-showcase-grid {
