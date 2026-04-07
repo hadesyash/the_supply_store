@@ -28,54 +28,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Contact Form Submission
-const contactForm = document.getElementById('contactForm');
-if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form data
-        const formData = new FormData(contactForm);
-        const data = Object.fromEntries(formData);
-        
-        // Here you would normally send to a backend
-        // For now, we'll show a success message
-        alert('Thank you for your enquiry! We will get back to you within 24 hours.');
-        contactForm.reset();
-        
-        // In production, you would do something like:
-        // fetch('/api/contact', {
-        //     method: 'POST',
-        //     body: JSON.stringify(data),
-        //     headers: { 'Content-Type': 'application/json' }
-        // })
-        // .then(response => response.json())
-        // .then(data => {
-        //     alert('Thank you for your enquiry!');
-        //     contactForm.reset();
-        // })
-        // .catch(error => {
-        //     alert('Sorry, there was an error. Please try again.');
-        // });
-    });
-}
-
-// Dealer Form Submission
-const dealerForm = document.getElementById('dealerForm');
-if (dealerForm) {
-    dealerForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form data
-        const formData = new FormData(dealerForm);
-        const data = Object.fromEntries(formData);
-        
-        // Show success message
-        alert('Thank you for your interest! Our team will review your application and contact you within 3-5 business days.');
-        dealerForm.reset();
-    });
-}
-
 // Scroll Animation for elements
 const observerOptions = {
     threshold: 0.1,
