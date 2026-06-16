@@ -543,7 +543,7 @@
                     <div class="empty-state">
                         <div class="empty-state-icon">⚠️</div>
                         <h3>Error loading enquiries</h3>
-                        <p>${error.message}</p>
+                        <p>${esc(error.message)}</p>
                     </div>
                 `;
                 showError('Failed to load enquiries');
@@ -611,7 +611,7 @@
                     <div class="empty-state">
                         <div class="empty-state-icon">⚠️</div>
                         <h3>Error loading dealerships</h3>
-                        <p>${error.message}</p>
+                        <p>${esc(error.message)}</p>
                     </div>
                 `;
                 showError('Failed to load dealership applications');
