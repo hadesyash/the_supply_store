@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="7IPUO6Ts4DPUi1gHG0lUpbk7k-1_stSwhwCDJEMPW2I" />
+    <meta name="robots" content="noindex, nofollow">
     <title>The Supply Store - Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -341,8 +341,13 @@
     </div>
     
     <script>
-        // UPDATE THIS URL TO YOUR RENDER BACKEND URL
         const API_BASE = 'https://supply-store-backend.onrender.com/api';
+
+        function esc(str) {
+            const div = document.createElement('div');
+            div.textContent = str || '';
+            return div.innerHTML;
+        }
         
         let enquiriesData = [];
         let dealershipsData = [];
@@ -424,12 +429,12 @@
                             <tbody>
                                 ${enquiriesData.map(enquiry => `
                                     <tr>
-                                        <td><strong>${enquiry.name || 'N/A'}</strong></td>
-                                        <td>${enquiry.email || 'N/A'}</td>
-                                        <td>${enquiry.phone || 'N/A'}</td>
-                                        <td>${enquiry.company || '-'}</td>
-                                        <td><span class="badge ${getBadgeClass(enquiry.interest)}">${enquiry.interest || 'N/A'}</span></td>
-                                        <td><div class="message-preview" title="${enquiry.message || ''}">${enquiry.message || '-'}</div></td>
+                                        <td><strong>${esc(enquiry.name) || 'N/A'}</strong></td>
+                                        <td>${esc(enquiry.email) || 'N/A'}</td>
+                                        <td>${esc(enquiry.phone) || 'N/A'}</td>
+                                        <td>${esc(enquiry.company) || '-'}</td>
+                                        <td><span class="badge ${getBadgeClass(enquiry.interest)}">${esc(enquiry.interest) || 'N/A'}</span></td>
+                                        <td><div class="message-preview" title="${esc(enquiry.message)}">${esc(enquiry.message) || '-'}</div></td>
                                         <td class="timestamp">${formatDate(enquiry.submittedAt || enquiry.timestamp)}</td>
                                     </tr>
                                 `).join('')}
@@ -490,12 +495,12 @@
                             <tbody>
                                 ${dealershipsData.map(app => `
                                     <tr>
-                                        <td><strong>${app.name || 'N/A'}</strong></td>
-                                        <td>${app.email || 'N/A'}</td>
-                                        <td>${app.phone || 'N/A'}</td>
-                                        <td>${app.location || '-'}</td>
-                                        <td>${app.experience || '-'}</td>
-                                        <td><div class="message-preview" title="${app.message || ''}">${app.message || '-'}</div></td>
+                                        <td><strong>${esc(app.name) || 'N/A'}</strong></td>
+                                        <td>${esc(app.email) || 'N/A'}</td>
+                                        <td>${esc(app.phone) || 'N/A'}</td>
+                                        <td>${esc(app.location) || '-'}</td>
+                                        <td>${esc(app.experience) || '-'}</td>
+                                        <td><div class="message-preview" title="${esc(app.message)}">${esc(app.message) || '-'}</div></td>
                                         <td class="timestamp">${formatDate(app.submittedAt || app.timestamp)}</td>
                                     </tr>
                                 `).join('')}
