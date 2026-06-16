@@ -397,8 +397,6 @@ document.addEventListener('DOMContentLoaded', function() {
             message: document.getElementById('message').value.trim()
         };
         
-        console.log('Sending data:', data);
-        
         // Only validate the truly required fields
         if (!data.name || !data.email || !data.phone) {
             alert('❌ Please fill in Name, Email, and Phone');
@@ -440,8 +438,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    console.log('Form handler attached successfully');
-
     // Store Gallery Slideshow
     const slides = document.querySelectorAll('.gallery-slide');
     const dots = document.querySelectorAll('.gallery-dot');
