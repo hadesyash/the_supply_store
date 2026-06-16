@@ -282,10 +282,71 @@
                 flex-direction: column;
             }
         }
+        .login-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #F8F9FA;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .login-box {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .login-box h2 {
+            margin-bottom: 0.5rem;
+        }
+
+        .login-box p {
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-family: inherit;
+        }
+
+        .login-box input:focus {
+            outline: none;
+            border-color: #0066cc;
+        }
+
+        .login-error {
+            color: #dc3545;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="login-overlay" id="login-overlay">
+        <div class="login-box">
+            <h2>Admin Access</h2>
+            <p>Enter your admin key to continue</p>
+            <input type="password" id="api-key-input" placeholder="Enter admin key" autofocus>
+            <div class="login-error" id="login-error">Invalid key. Please try again.</div>
+            <button class="btn" onclick="attemptLogin()" style="width:100%">Unlock Dashboard</button>
+        </div>
+    </div>
+
+    <div class="container" id="dashboard" style="display:none;">
         <header>
             <h1>🎨 The Supply Store Admin</h1>
             <p class="subtitle">View and manage all enquiries and dealership applications</p>
@@ -342,12 +403,41 @@
     
     <script>
         const API_BASE = 'https://supply-store-backend.onrender.com/api';
+        let API_KEY = '';
 
         function esc(str) {
             const div = document.createElement('div');
             div.textContent = str || '';
             return div.innerHTML;
         }
+
+        async function attemptLogin() {
+            const input = document.getElementById('api-key-input');
+            API_KEY = input.value.trim();
+            if (!API_KEY) return;
+
+            try {
+                const res = await fetch(`${API_BASE}/enquiries`, {
+                    headers: { 'x-api-key': API_KEY }
+                });
+                if (res.status === 401) {
+                    document.getElementById('login-error').style.display = 'block';
+                    return;
+                }
+                document.getElementById('login-overlay').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                refreshData();
+            } catch (e) {
+                document.getElementById('login-error').textContent = 'Connection error. Try again.';
+                document.getElementById('login-error').style.display = 'block';
+            }
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && document.getElementById('login-overlay').style.display !== 'none') {
+                attemptLogin();
+            }
+        });
         
         let enquiriesData = [];
         let dealershipsData = [];
@@ -395,7 +485,9 @@
         // Load enquiries
         async function loadEnquiries() {
             try {
-                const response = await fetch(`${API_BASE}/enquiries`);
+                const response = await fetch(`${API_BASE}/enquiries`, {
+                    headers: { 'x-api-key': API_KEY }
+                });
                 if (!response.ok) throw new Error('Failed to load enquiries');
                 
                 enquiriesData = await response.json();
@@ -461,7 +553,9 @@
         // Load dealerships
         async function loadDealerships() {
             try {
-                const response = await fetch(`${API_BASE}/dealerships`);
+                const response = await fetch(`${API_BASE}/dealerships`, {
+                    headers: { 'x-api-key': API_KEY }
+                });
                 if (!response.ok) throw new Error('Failed to load dealerships');
                 
                 dealershipsData = await response.json();
@@ -571,10 +665,7 @@
             window.URL.revokeObjectURL(url);
         }
         
-        // Load data on page load
-        window.addEventListener('DOMContentLoaded', async () => {
-            await refreshData();
-        });
+        document.getElementById('api-key-input').focus();
     </script>
 </body>
 </html>
